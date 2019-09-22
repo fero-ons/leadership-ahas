@@ -12,28 +12,45 @@ function Story({x}) {
 function Main() {
     var slides = [];
 
-    var dataX = 0
-    var dataY = 0
+    var slideStepX = 1200;
+    var slideStepY = 1000;
+    var slideStepZ = 1000;
+    var lastDataX = 0;
+    var lastDataY = 0;
 
     function addSlide({
             content, 
             id=null, 
-            cssClasses=""
+            cssClasses="",
+            x=null,
+            y=null,
+            z=0,
+            yRot=0,
+            others={}
     }={}) {
         // eval('debugger');
+        if (x === null) {
+            x = lastDataX + slideStepX;
+        }
+        if (y === null) {
+            y = lastDataY;
+        }
 
         var mainDivProps = {
             'className': "step slide " + cssClasses,
-            'data-x': dataX,
-            'data-y': dataY,
+            'data-x': x,
+            'data-y': y,
+            'data-z': z,
+            'data-rotate-y': yRot,
+            'data-transition-duration': 500,
+            ...others
         };
+        lastDataX = x;
+        lastDataY = y;
 
         if (id) {
             mainDivProps['id'] = id;
         }
-
-        dataX += 1000;
-        dataY += 0;
 
         slides.push(
             <div {...mainDivProps}>
@@ -42,9 +59,15 @@ function Main() {
         );
     }
 
+    var rotDeg = 90;
     var storyTime = <span className="story-time">Story time: </span>
+    var startX = 0;
+    var startY = -3*slideStepY;
+    var xDiffRotate = slideStepX*0.7
 
     addSlide({
+        x: startX,
+        y: startY,
         id: 'title-slide',
         content: <>
             <div className="slide-center">
@@ -58,6 +81,8 @@ function Main() {
     });
     
     addSlide({
+        x: startX + slideStepX,
+        y: startY,
         id: 'intro',
         content: <>
             <div className="slide-heading">Once upon a time...</div>
@@ -74,6 +99,10 @@ function Main() {
     // ----------------------------- Common goal ------------------------------
 
     addSlide({
+        x: -xDiffRotate,
+        y: -slideStepY,
+        z: -slideStepX,
+        yRot: -rotDeg,
         cssClasses: 'story-slide common-goal',
         content: <>
             <div className="slide-heading">
@@ -93,6 +122,10 @@ function Main() {
     });
 
     addSlide({
+        x: 0,
+        y: -slideStepY,
+        z: 0,
+        id: 'common-goal',
         cssClasses: 'aha-slide common-goal',
         content: <>
             <div className="slide-center">
@@ -102,6 +135,10 @@ function Main() {
     });
 
     addSlide({
+        x: xDiffRotate,
+        y: -slideStepY,
+        z: -slideStepX,
+        yRot: rotDeg,
         cssClasses: 'take-away-slide common-goal',
         content: <>
             <div className="slide-heading">The common goal is the most important</div>
@@ -121,6 +158,10 @@ function Main() {
     // ----------------------------- I delegate -----------------------------
 
     addSlide({
+        x: slideStepX - xDiffRotate,
+        y: 0,
+        z: -slideStepX,
+        yRot: -rotDeg,
         cssClasses: 'story-slide delegate',
         content: <>
             <div className="slide-heading">
@@ -133,13 +174,18 @@ function Main() {
                     <li>Yet still time for a chat?</li>
                 </div>
                 <div className="content-center">
-                    <img src="pics/conversation.png" className="img-center" height="350px"/>
+                    <img src="pics/conversation.png" className="img-center no-shadow" height="350px"/>
                 </div>
             </div>
         </>
     });
 
     addSlide({
+        x: slideStepX,
+        y: 0,
+        z: 0,
+        yRot: 0,
+        id: 'delegate',
         cssClasses: 'aha-slide delegate',
         content: <>
             <div className="slide-center">
@@ -149,6 +195,10 @@ function Main() {
     });
 
     addSlide({
+        x: slideStepX + xDiffRotate,
+        y: 0,
+        z: -slideStepX,
+        yRot: rotDeg,
         cssClasses: 'take-away-slide delegate',
         content: <>
             <div className="slide-heading"><span>"I delegate"<span className="rotate-once"> (let go)</span></span></div>
@@ -168,6 +218,10 @@ function Main() {
     // ----------------------------- Leadership is lonely -------------------
 
     addSlide({
+        x: slideStepX*0.6 - xDiffRotate,
+        y: slideStepY,
+        z: -slideStepX,
+        yRot: -rotDeg,
         cssClasses: 'story-slide leadership-lonely',
         content: <>
             <div className="slide-heading">
@@ -187,6 +241,11 @@ function Main() {
     });
 
     addSlide({
+        x: slideStepX*0.6,
+        y: slideStepY,
+        z: 0,
+        yRot: 0,
+        id: 'leadership-lonely',
         cssClasses: 'aha-slide leadership-lonely',
         content: <>
             <div className="slide-center">
@@ -196,6 +255,10 @@ function Main() {
     });
 
     addSlide({
+        x: slideStepX*0.6 + xDiffRotate,
+        y: slideStepY,
+        z: -slideStepX,
+        yRot: rotDeg,
         cssClasses: 'take-away-slide leadership-lonely',
         content: <>
             <div className="slide-heading">
@@ -217,6 +280,10 @@ function Main() {
     // ----------------------------- Flexible leadership
 
     addSlide({
+        x: -slideStepX*0.6 - xDiffRotate,
+        y: slideStepY,
+        z: -slideStepX,
+        yRot: -rotDeg,
         cssClasses: 'story-slide flexible-leader',
         content: <>
             <div className="slide-heading">
@@ -236,6 +303,11 @@ function Main() {
     });
 
     addSlide({
+        x: -slideStepX*0.6,
+        y: slideStepY,
+        z: 0,
+        yRot: 0,
+        id: 'flexible-leader',
         cssClasses: 'aha-slide flexible-leader',
         content: <>
             <div className="slide-center">
@@ -245,6 +317,10 @@ function Main() {
     });
 
     addSlide({
+        x: -slideStepX*0.6 + xDiffRotate,
+        y: slideStepY,
+        z: -slideStepX,
+        yRot: rotDeg,
         cssClasses: 'take-away-slide flexible-leader',
         content: <>
             <div className="slide-heading">
@@ -266,6 +342,10 @@ function Main() {
     // ----------------------------- Social capital
 
     addSlide({
+        x: -slideStepX - xDiffRotate,
+        y: 0,
+        z: -slideStepX,
+        yRot: -rotDeg,
         cssClasses: 'story-slide social-capital',
         content: <>
             <div className="slide-heading">
@@ -275,7 +355,7 @@ function Main() {
                 <div className="slide-bullets">
                     <li>Slow start, days of research...</li>
                     <li>Libraries, papers, keywords</li>
-                    <li>Colleague --> 90 minutes</li>
+                    <li>Colleague --> rotDeg minutes</li>
                 </div>
                 <div className="content-center">
                     <img src="pics/krivan.jpg" className="img-center" height="350px"/>
@@ -285,6 +365,11 @@ function Main() {
     });
 
     addSlide({
+        x: -slideStepX,
+        y: 0,
+        z: 0,
+        yRot: 0,
+        id: 'social-capital',
         cssClasses: 'aha-slide social-capital',
         content: <>
             <div className="slide-center">
@@ -294,6 +379,10 @@ function Main() {
     });
 
     addSlide({
+        x: 0,
+        y: 0,
+        z: -slideStepX + xDiffRotate,
+        yRot: rotDeg,
         cssClasses: 'take-away-slide social-capital',
         content: <>
             <div className="slide-heading">
@@ -310,6 +399,101 @@ function Main() {
                 </div>
             </div>
         </>
+    });
+
+    // ----------------------------- Conclusion
+
+    addSlide({
+        x: startX + 2*slideStepX,
+        y: startY,
+        id: 'dont-manage',
+        content: <>
+            <div className="slide-heading">
+                But what if I don't manage anyone?
+            </div>
+            <div className="slide-body">
+                <div className="slide-bullets">
+                    <li>Strive for common goal</li>
+                    <li>Build social capital</li>
+                    <li>Be supportive and decisive in the right moments</li>
+                </div>
+                <div className="content-center">
+                    <img src="pics/glue.png" className="img-center no-shadow" height="300px"/>
+                </div>
+            </div>
+        </>
+    });
+
+    addSlide({
+        x: startX + 3*slideStepX,
+        y: startY,
+        id: 'final',
+        content: <>
+            <div className="slide-heading">
+                <span>The biggest <span className="rotate-once aha">AHA</span></span>
+            </div>
+            <div className="slide-body">
+                <div className="slide-bullets">
+                <div className="final-aha">
+                    Through proper leadership, one can achieve so much more than with technical work
+                </div>
+                    <li>Individuals have limited time</li>
+                    <li>Teams need leadership</li>
+                </div>
+                <div className="slide-center-horiz">
+                    <img className="final-pt" src="pics/individuals.png"/>
+                    <img className="final-pt" src="pics/magic.jpg"/>
+                    <img className="final-pt" src="pics/team.png"/>
+                </div>
+            </div>
+        </>
+    });
+
+    addSlide({
+        id: 'resources',
+        x: 0,
+        y: 0,
+        z: slideStepZ,
+        content: <>
+            <div className="slide-heading">
+                <span>Resources &amp; links</span>
+            </div>
+            <div className="slide-body">
+                <div className="slide-bullets">
+                    <li>
+                        <a target="_blank" href="https://www.amazon.co.uk/Five-Dysfunctions-Team-Leadership-Lencioni/dp/0787960756">
+                            5 dysfunctions of a team (book by P. M. Lencioni)
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://noidea.dog/glue">Being glue (credit: Gareth Clews)</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://www.toastmasters.org/">Toastmasters.org</a>
+                    </li>
+                    <li>
+                        Your managers and leaders :-)
+                    </li>
+                    <br/>
+                    <i>
+                        Built using <a target="_blank" href="https://github.com/impress/impress.js/">impress.js</a> 
+                        and <a target="_blank" href="https://reactjs.org/">react</a>. 
+                        Get the code for this presentation on <a target="_blank" href="https://github.com/fero-ons/leadership-ahas">GitHub</a>
+                    </i>
+                </div>
+            </div>
+        </>
+    });
+
+    addSlide({
+        id: 'overview',
+        x: 0,
+        y: 0,
+        z: 0,
+        others: {
+            'data-scale':3.4
+        },
+        content: <div></div>
     });
 
 
