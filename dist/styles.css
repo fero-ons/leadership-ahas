@@ -212,7 +212,7 @@ a:focus {
     color: var(--main-text-color);
     text-shadow: var(--main-shadow);
 
-    font-family: 'Century Gothic', Arial, sans-serif;
+    font-family: 'Allerta Stencil', 'Didact Gothic', Arial, sans-serif;
     font-size: 40px;
     line-height: 60px;
     letter-spacing: -1px;
@@ -1010,6 +1010,7 @@ div.slide-bullets {
 }
 
 .final-aha {
+    font-size: 90%;
     font-style: italic;
     text-align: center;
     display: flex;

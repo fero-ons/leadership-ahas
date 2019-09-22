@@ -12,7 +12,9 @@ function Story({x}) {
 function Main() {
     var slides = [];
 
-    var slideStepX = 1200;
+    var linear = false;
+
+    var slideStepX = linear ? 2000 : 1200;
     var slideStepY = 1000;
     var slideStepZ = 1000;
     var lastDataX = 0;
@@ -29,6 +31,15 @@ function Main() {
             others={}
     }={}) {
         // eval('debugger');
+
+        if (linear) {
+            x = null;
+            y = null;
+            z = 0;
+            yRot = 0;
+            others = {}
+        }
+
         if (x === null) {
             x = lastDataX + slideStepX;
         }
@@ -42,9 +53,10 @@ function Main() {
             'data-y': y,
             'data-z': z,
             'data-rotate-y': yRot,
-            'data-transition-duration': 500,
+            'data-transition-duration': linear ? 0 : 800,
             ...others
         };
+
         lastDataX = x;
         lastDataY = y;
 
@@ -291,7 +303,7 @@ function Main() {
             </div>
             <div className="slide-body">
                 <div className="slide-bullets">
-                    <li>Who here likes supportive managers?</li>
+                    <li>Who likes supportive managers?</li>
                     <li>Vow to be supportive</li>
                     <li>But is that the right style?</li>
                 </div>
@@ -330,7 +342,7 @@ function Main() {
                 <div className="slide-bullets">
                     <li>It depends on the <i>situation</i></li>
                     <li>Catch up, struggling colleague etc...</li>
-                    <li>End of the meeting, no agreement in sight</li>
+                    <li>End of meeting &amp; no agreement...</li>
                 </div>
                 <div className="content-center">
                     <img src="pics/yoga.jpg" className="img-center" height="300px"/>
@@ -355,7 +367,7 @@ function Main() {
                 <div className="slide-bullets">
                     <li>Slow start, days of research...</li>
                     <li>Libraries, papers, keywords</li>
-                    <li>Colleague --> rotDeg minutes</li>
+                    <li>Colleague --> 90 minutes</li>
                 </div>
                 <div className="content-center">
                     <img src="pics/krivan.jpg" className="img-center" height="350px"/>
@@ -435,7 +447,7 @@ function Main() {
             <div className="slide-body">
                 <div className="slide-bullets">
                 <div className="final-aha">
-                    Through proper leadership, one can achieve so much more than with technical work
+                    Through proper leadership, one can achieve much more than with technical work
                 </div>
                     <li>Individuals have limited time</li>
                     <li>Teams need leadership</li>
@@ -485,17 +497,18 @@ function Main() {
         </>
     });
 
-    addSlide({
-        id: 'overview',
-        x: 0,
-        y: 0,
-        z: 0,
-        others: {
-            'data-scale':3.4
-        },
-        content: <div></div>
-    });
-
+    if (!linear) {
+        addSlide({
+            id: 'overview',
+            x: 0,
+            y: 0,
+            z: 0,
+            others: {
+                'data-scale':3.4
+            },
+            content: <div></div>
+        });
+    }
 
     return (
         <>
