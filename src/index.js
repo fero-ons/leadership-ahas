@@ -1,18 +1,13 @@
 import React from "react";
 import { render } from "react-dom";
 
-function Story({x}) {
-    return (
-        <div>
-            {x}
-        </div>
-    );
-}
+var url = window.location.href
+var is3d = url.search('3d=true')
+console.log(is3d)
 
-function Main() {
+
+function Main({linear=false}) {
     var slides = [];
-
-    var linear = false;
 
     var slideStepX = linear ? 2000 : 1200;
     var slideStepY = 1000;
@@ -77,6 +72,9 @@ function Main() {
     var startY = -3*slideStepY;
     var xDiffRotate = slideStepX*0.7
 
+    var urlLinear = url.split('.html')[0] + '.html?3d=false'
+    var url3d = url.split('.html')[0] + '.html?3d=true'
+
     addSlide({
         x: startX,
         y: startY,
@@ -88,7 +86,11 @@ function Main() {
                     <div className="name">Fero Hajnovic</div>
                     <div className="affiliation">Office for National Statistics</div>
                 </div>
+                <div className="anim-mode">
+                    <a href={urlLinear}>Linear</a> | <a href={url3d}>3D</a>
+                </div>
             </div>
+
         </>
     });
     
@@ -518,6 +520,6 @@ function Main() {
 }
 
 render(
-    <Main />, document.getElementById("react-container")
+    <Main linear={is3d !== -1}/>, document.getElementById("react-container")
 )
 
