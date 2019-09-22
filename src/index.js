@@ -3,7 +3,6 @@ import { render } from "react-dom";
 
 var url = window.location.href
 var is3d = url.search('3d=true')
-console.log(is3d)
 
 
 function Main({linear=false}) {
@@ -520,6 +519,6 @@ function Main({linear=false}) {
 }
 
 render(
-    <Main linear={is3d !== -1}/>, document.getElementById("react-container")
+    <Main linear={is3d === -1}/>, document.getElementById("react-container")
 )
 
