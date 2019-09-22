@@ -8,5 +8,7 @@ module.exports = {
   },
   module: {
     rules: [{ test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }]
-  }
+  },
+  watch: true,
+  devtool: "#source-map" 
 };

@@ -600,7 +600,36 @@ body.impress-mouse-timeout {
     for you.
 */
 
-.story-time {
+.substep { opacity: 0; }
+.substep.substep-visible { opacity: 1; transition: opacity 0.5s; }
+
+
+@keyframes fade-in-out {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0.5;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+#intro {
+    background-image: url("./pics/ba-sunset.jpg");
+    animation-name: fade-in-out;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 8s;
+    animation-direction: alternate;
+}
+
+/* -------------------------------------------------------- */
+/* One for each: story, aha and take-away */
+/* -------------------------------------------------------- */
+
+.story {
 
 }
 
@@ -611,3 +640,28 @@ body.impress-mouse-timeout {
 .take-away {
 
 }
+
+/* -------------------------------------------------------- */
+/* One for each aha */
+/* -------------------------------------------------------- */
+
+.common-goal {
+
+}
+
+.delegate {
+
+}
+
+.leadership-lonely {
+
+}
+
+.flexible-leader {
+
+}
+
+.social-capital {
+
+}
+
