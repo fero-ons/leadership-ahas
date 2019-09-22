@@ -18,7 +18,7 @@ function Main() {
     function addSlide({
             content, 
             id=null, 
-            title=null, 
+            heading=null, 
             slideType=null
     }={}) {
         // eval('debugger');
@@ -41,14 +41,14 @@ function Main() {
 
         slides.push(
             <div {...mainDivProps}>
-                {title && <p class="slide-title">{title}</p>}
-                {content}
+                {heading && <p class="slide-heading">{heading}</p>}
+                <div class="slide-content">{content}</div>
             </div>
         );
     }
 
     addSlide({
-        id: 'title',
+        id: 'title-slide',
         content: <>
             <div>My leadership <span>AHA!</span> moments</div>
             <div>Fero Hajnovic</div>
@@ -58,7 +58,7 @@ function Main() {
     
     addSlide({
         id: 'intro',
-        title: 'Once upon a time...',
+        heading: 'Once upon a time...',
         content: <>
             <span class="substep">5 AHA moments</span>
             <div class="substep">
