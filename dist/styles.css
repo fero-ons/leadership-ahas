@@ -1,14 +1,14 @@
 :root {
     --main-text-color: rgb(29, 5, 5);
-    --stress-text-color: rgb(252, 89, 14);
+    --stress-text-color: rgb(80, 27, 3);
     --alternate-text-color: rgb(233, 215, 206);
     --aha-color: rgb(235, 202, 16);
     --main-shadow: 2px 3px 4px var(--alternate-text-color);
     --alternate-shadow: 2px 3px 4px var(--main-text-color);
 
-    --common-goal-color: rgb(185, 83, 32);
+    --common-goal-color: rgb(117, 54, 22);
     --delegate-color: rgb(9, 133, 65);
-    --leadership-lonely-color: rgb(140, 172, 0);
+    --leadership-lonely-color: rgb(78, 95, 0);
     --flexible-leader-color: rgb(0, 115, 168);
     --social-capital-color: rgb(48, 5, 201);
 }
@@ -340,7 +340,7 @@ a:focus {
 /*
     ... 'rotating' to rotate a quarter of a second later ...
 */
-#ing.present .rotating {
+.rotating {
     -webkit-transform: rotate(-10deg);
     -moz-transform:    rotate(-10deg);
     -ms-transform:     rotate(-10deg);
@@ -593,7 +593,7 @@ body.impress-mouse-timeout {
     for you.
 */
 
-.substep { opacity: 1; }
+.substep { opacity: 0; }
 .substep.substep-visible { opacity: 1; transition: opacity 0.5s; }
 
 
@@ -674,13 +674,17 @@ body.impress-mouse-timeout {
 }
 
 div.slide-heading {
+    margin-left: -30px;
+    margin-right: -30px;
     height: 15%;
     display: flex;
+    color: var(--stress-text-color);
+    text-shadow: var(--main-shadow);
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    font-size: 140%;
-    font-weight: 700;
+    font-size: 120%;
+    font-weight: 600;
 }
 
 div.slide-body {
@@ -725,12 +729,56 @@ div.slide-bullets {
     animation-duration: 5s;
 }
 
+
+@keyframes rotate-once-anim {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform:    rotate(0deg);
+        -ms-transform:     rotate(0deg);
+        -o-transform:      rotate(0deg);
+        transform:         rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(-10deg);
+        -moz-transform:    rotate(-10deg);
+        -ms-transform:     rotate(-10deg);
+        -o-transform:      rotate(-10deg);
+        transform:         rotate(-10deg);
+    }
+}
+
+.rotate-on-show.substep-visible {
+    display: inline-block;
+    animation-name: rotate-once-anim;
+    animation-iteration-count: 1;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+.rotate-once {
+    display: inline-block;
+    animation-name: rotate-once-anim;
+    animation-iteration-count: 1;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
 /* -------------------------------------------------------- */
 /* One for each: story, aha and take-away */
 /* -------------------------------------------------------- */
 
 .story-slide {
 
+}
+
+.story-time {
+}
+
+.story-start { 
+    font-style: italic;
+    color: var(--alternate-text-color);
+    text-shadow: var(--alternate-shadow);
+    font-weight: 100;
 }
 
 .story-slide::after {
@@ -751,7 +799,7 @@ div.slide-bullets {
 
 .aha-slide::after {
     content:"";
-    background-image: url("./pics/bricks.jpg");
+    background-image: url("./pics/aha-lightbulb.jpg");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -762,13 +810,11 @@ div.slide-bullets {
     bottom: 0;
     left: 0;
     right: 0;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .aha-slide {
     font-size: 400%;
-    color: var(--aha-color);
-    text-shadow: 0 0px 15px var(--main-text-color);
 }
 
 .take-away-slide {
@@ -801,20 +847,50 @@ div.slide-bullets {
     box-shadow: 0 0 10px 10px var(--common-goal-color);
 }
 
+.common-goal.aha-slide {
+    color: var(--alternate-text-color);
+    -webkit-text-stroke: 2px var(--common-goal-color);
+    text-shadow: 5px 5px 0px black;
+}
+
 .delegate {
     box-shadow: 0 0 10px 10px var(--delegate-color);
+}
+
+.delegate.aha-slide {
+    color: var(--alternate-text-color);
+    -webkit-text-stroke: 2px var(--delegate-color);
+    text-shadow: 5px 5px 0px black;
 }
 
 .leadership-lonely {
     box-shadow: 0 0 10px 10px var(--leadership-lonely-color);
 }
 
+.leadership-lonely.aha-slide {
+    color: var(--alternate-text-color);
+    -webkit-text-stroke: 2px var(--leadership-lonely-color);
+    text-shadow: 5px 5px 0px black;
+}
+
 .flexible-leader {
     box-shadow: 0 0 10px 10px var(--flexible-leader-color);
 }
 
+.flexible-leader.aha-slide {
+    color: var(--alternate-text-color);
+    -webkit-text-stroke: 2px var(--flexible-leader-color);
+    text-shadow: 5px 5px 0px black;
+}
+
 .social-capital {
     box-shadow: 0 0 10px 10px var(--social-capital-color);
+}
+
+.social-capital.aha-slide {
+    color: var(--alternate-text-color);
+    -webkit-text-stroke: 2px var(--social-capital-color);
+    text-shadow: 5px 5px 0px black;
 }
 
 
