@@ -18,20 +18,16 @@ function Main() {
     function addSlide({
             content, 
             id=null, 
-            heading=null, 
-            slideType=null
+            cssClasses=""
     }={}) {
         // eval('debugger');
 
         var mainDivProps = {
-            'className': "step slide",
+            'className': "step slide " + cssClasses,
             'data-x': dataX,
             'data-y': dataY,
         };
 
-        if (slideType) {
-            mainDivProps['className'] += ` ${slideType}`;
-        }
         if (id) {
             mainDivProps['id'] = id;
         }
@@ -41,8 +37,7 @@ function Main() {
 
         slides.push(
             <div {...mainDivProps}>
-                {heading && <p class="slide-heading">{heading}</p>}
-                <div class="slide-content">{content}</div>
+                {content}
             </div>
         );
     }
@@ -50,21 +45,26 @@ function Main() {
     addSlide({
         id: 'title-slide',
         content: <>
-            <div>My leadership <span>AHA!</span> moments</div>
-            <div>Fero Hajnovic</div>
-            <div>Data scientist @ Office for National Statistics</div>
+            <div className="slide-center">
+                <div className="main">My leadership <br/> <b className="aha-title">AHA!</b><br/> moments</div>
+                <div className="author">
+                    <div className="name">Fero Hajnovic</div>
+                    <div className="affiliation">Office for National Statistics</div>
+                </div>
+            </div>
         </>
     });
     
     addSlide({
         id: 'intro',
-        heading: 'Once upon a time...',
         content: <>
-            <span class="substep">5 AHA moments</span>
-            <div class="substep">
-                <span>Story</span>
-                <span>AHA!</span>
-                <span>Take-away points</span>
+            <div className="slide-heading">Once upon a time...</div>
+            <div className="slide-body">
+                <div className="slide-center">
+                    <img className="intro-pt substep" src="pics/story.jpg"/>
+                    <img className="intro-pt substep" src="pics/aha.jpg"/>
+                    <img className="intro-pt substep" src="pics/takeaway.jpg"/>
+                </div>
             </div>
         </>
     });
@@ -72,30 +72,93 @@ function Main() {
     // ----------------------------- Common goal ------------------------------
 
     addSlide({
-        slideType: 'story',
+        cssClasses: 'story-slide common-goal',
         content: <>
-            <p>WHY</p>
-            <p>If I was a manager, I would...</p>
-            <p>Oh,...</p>
+            <div className="slide-heading">Story time: I used to...</div>
+            <div className="slide-body">
+                <div className="slide-bullets">
+                    <li>Strong opinions...</li>
+                    <li><i>If I was a manager, I would...</i></li>
+                    <li>Conflicts</li>
+                </div>
+                <div className="content-center">
+                    <img src="pics/critic.jpg" className="img-center" height="350px"/>
+                </div>
+            </div>
         </>
     });
 
     addSlide({
-        slideType: 'aha',
+        cssClasses: 'aha-slide common-goal',
         content: <>
-            <p>The common goal is the most important</p>
+            <div className="slide-center">
+                <p>The common goal is the most important</p>
+            </div>
         </>
     });
 
     addSlide({
-        slideType: 'take-away',
+        cssClasses: 'take-away-slide common-goal',
         content: <>
-            <p>Say what you think</p>
-            <p>Don't be afraid of (good) conflicts</p>
+            <div className="slide-heading">Take-aways</div>
+            <div className="slide-body">
+                <div className="slide-bullets">
+                    <li>Think of the common goal</li>
+                    <li>Say what you think</li>
+                    <li>(Good) conflicts are good</li>
+                </div>
+                <div className="content-center">
+                    <img src="pics/handshake.jpg" className="img-center" height="300px"/>
+                </div>
+            </div>
         </>
     });
 
     // ----------------------------- I delegate -----------------------------
+
+    addSlide({
+        cssClasses: 'story-slide delegate',
+        content: <>
+            <div className="slide-heading">Story time: I used to...</div>
+            <div className="slide-body">
+                <div className="slide-bullets">
+                    <li>Strong opinions...</li>
+                    <li><i>If I was a manager, I would...</i></li>
+                    <li>Conflicts</li>
+                </div>
+                <div className="content-center">
+                    <img src="pics/critic.jpg" className="img-center" height="350px"/>
+                </div>
+            </div>
+        </>
+    });
+
+    addSlide({
+        cssClasses: 'aha-slide delegate',
+        content: <>
+            <div className="slide-center">
+                <p>The common goal is the most important</p>
+            </div>
+        </>
+    });
+
+    addSlide({
+        cssClasses: 'take-away-slide delegate',
+        content: <>
+            <div className="slide-heading">Take-aways</div>
+            <div className="slide-body">
+                <div className="slide-bullets">
+                    <li>Think of the common goal</li>
+                    <li>Say what you think</li>
+                    <li>(Good) conflicts are good</li>
+                </div>
+                <div className="content-center">
+                    <img src="pics/handshake.jpg" className="img-center" height="300px"/>
+                </div>
+            </div>
+        </>
+    });
+
     // ----------------------------- Leadership is lonely -------------------
     // ----------------------------- Flexible leadership
     // ----------------------------- Social capital

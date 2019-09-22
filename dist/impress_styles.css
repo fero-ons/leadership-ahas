@@ -1,17 +1,24 @@
-:root {
-    --main-text-color: rgb(29, 5, 5);
-    --stress-text-color: rgb(252, 89, 14);
-    --alternate-text-color: rgb(233, 215, 206);
-    --aha-color: rgb(235, 202, 16);
-    --main-shadow: 2px 3px 4px var(--alternate-text-color);
-    --alternate-shadow: 2px 3px 4px var(--main-text-color);
+/*
+    So you like the style of impress.js demo?
+    Or maybe you are just curious how it was done?
 
-    --common-goal-color: rgb(185, 83, 32);
-    --delegate-color: rgb(9, 133, 65);
-    --leadership-lonely-color: rgb(140, 172, 0);
-    --flexible-leader-color: rgb(0, 115, 168);
-    --social-capital-color: rgb(48, 5, 201);
-}
+    You couldn't find a better place to find out!
+
+    Welcome to the stylesheet impress.js demo presentation.
+
+    Please remember that it is not meant to be a part of impress.js and is
+    not required by impress.js.
+    I expect that anyone creating a presentation for impress.js would create
+    their own set of styles.
+
+    But feel free to read through it and learn how to get the most of what
+    impress.js provides.
+
+    And let me be your guide.
+
+    Shall we begin?
+*/
+
 
 /*
     We start with a good ol' reset.
@@ -211,12 +218,12 @@ a:focus {
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
 
-    color: var(--main-text-color);
-    text-shadow: var(--main-shadow);
+    color: rgb(102, 102, 102);
+    text-shadow: 0 2px 2px rgba(0, 0, 0, .1);
 
-    font-family: 'Century Gothic', Arial, sans-serif;
-    font-size: 40px;
-    line-height: 60px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 30px;
+    line-height: 36px;
     letter-spacing: -1px;
 }
 
@@ -552,6 +559,139 @@ body.impress-mouse-timeout {
 
 
 /*
+    Now, when we have all the steps styled let's give users a hint how to navigate
+    around the presentation.
+
+    The best way to do this would be to use JavaScript, show a delayed hint for a
+    first time users, then hide it and store a status in cookie or localStorage...
+
+    But I wanted to have some CSS fun and avoid additional scripting...
+
+    Let me explain it first, so maybe the transition magic will be more readable
+    when you read the code.
+
+    First of all I wanted the hint to appear only when user is idle for a while.
+    You can't detect the 'idle' state in CSS, but I delayed a appearing of the
+    hint by 5s using transition-delay.
+
+    You also can't detect in CSS if the user is a first-time visitor, so I had to
+    make an assumption that I'll only show the hint on the first step. And when
+    the step is changed hide the hint, because I can assume that user already
+    knows how to navigate.
+
+    To summarize it - hint is shown when the user is on the first step for longer
+    than 5 seconds.
+
+    The other problem I had was caused by the fact that I wanted the hint to fade
+    in and out. It can be easily achieved by transitioning the opacity property.
+    But that also meant that the hint was always on the screen, even if totally
+    transparent. It covered part of the screen and you couldn't correctly clicked
+    through it.
+    Unfortunately you cannot transition between display `block` and `none` in pure
+    CSS, so I needed a way to not only fade out the hint but also move it out of
+    the screen.
+
+    I solved this problem by positioning the hint below the bottom of the screen
+    with CSS transform and moving it up to show it. But I also didn't want this move
+    to be visible. I wanted the hint only to fade in and out visually, so I delayed
+    the fade in transition, so it starts when the hint is already in its correct
+    position on the screen.
+
+    I know, it sounds complicated ... maybe it would be easier with the code?
+*/
+
+.hint {
+    /*
+        We hide the hint until presentation is started and from browsers not supporting
+        impress.js, as they will have a linear scrollable view ...
+    */
+    display: none;
+
+    /*
+        ... and give it some fixed position and nice styles.
+    */
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 200px;
+
+    background: rgba(0,0,0,0.5);
+    color: #EEE;
+    text-align: center;
+
+    font-size: 50px;
+    padding: 20px;
+
+    z-index: 100;
+
+    /*
+        By default we don't want the hint to be visible, so we make it transparent ...
+    */
+    opacity: 0;
+
+    /*
+        ... and position it below the bottom of the screen (relative to it's fixed position)
+    */
+    -webkit-transform: translateY(400px);
+    -moz-transform:    translateY(400px);
+    -ms-transform:     translateY(400px);
+    -o-transform:      translateY(400px);
+    transform:         translateY(400px);
+
+    /*
+        Now let's imagine that the hint is visible and we want to fade it out and move out
+        of the screen.
+
+        So we define the transition on the opacity property with 1s duration and another
+        transition on transform property delayed by 1s so it will happen after the fade out
+        on opacity finished.
+
+        This way user will not see the hint moving down.
+    */
+    -webkit-transition: opacity 1s, -webkit-transform 0.5s 1s;
+    -moz-transition:    opacity 1s,    -moz-transform 0.5s 1s;
+    -ms-transition:     opacity 1s,     -ms-transform 0.5s 1s;
+    -o-transition:      opacity 1s,      -o-transform 0.5s 1s;
+    transition:         opacity 1s,         transform 0.5s 1s;
+}
+
+/*
+    Now we 'enable' the hint when presentation is initialized ...
+*/
+.impress-enabled .hint { display: block }
+
+/*
+    ... and we will show it when the first step (with id 'bored') is active.
+*/
+.impress-on-bored .hint {
+    /*
+        We remove the transparency and position the hint in its default fixed
+        position.
+    */
+    opacity: 1;
+
+    -webkit-transform: translateY(0px);
+    -moz-transform:    translateY(0px);
+    -ms-transform:     translateY(0px);
+    -o-transform:      translateY(0px);
+    transform:         translateY(0px);
+
+    /*
+        Now for fade in transition we have the oposite situation from the one
+        above.
+
+        First after 4.5s delay we animate the transform property to move the hint
+        into its correct position and after that we fade it in with opacity
+        transition.
+    */
+    -webkit-transition: opacity 1s 5s, -webkit-transform 0.5s 4.5s;
+    -moz-transition:    opacity 1s 5s,    -moz-transform 0.5s 4.5s;
+    -ms-transition:     opacity 1s 5s,     -ms-transform 0.5s 4.5s;
+    -o-transition:      opacity 1s 5s,      -o-transform 0.5s 4.5s;
+    transition:         opacity 1s 5s,         transform 0.5s 4.5s;
+}
+
+/*
     And as the last thing there is a workaround for quite strange bug.
     It happens a lot in Chrome. I don't remember if I've seen it in Firefox.
 
@@ -592,291 +732,3 @@ body.impress-mouse-timeout {
     Thanks for reading. I hope you enjoyed it at least as much as I enjoyed writing it
     for you.
 */
-
-.substep { opacity: 1; }
-.substep.substep-visible { opacity: 1; transition: opacity 0.5s; }
-
-
-/* -------------------------------------------------------- */
-/* -------------------------------------------------------- */
-/* -------------------------------------------------------- */
-/* My CSS
-/* -------------------------------------------------------- */
-/* -------------------------------------------------------- */
-/* -------------------------------------------------------- */
-
-
-
-
-/* -------------------------------------------------------- */
-/* General settings
-/* -------------------------------------------------------- */
-
-@keyframes color-change {
-    0% {
-        color: var(--stress-text-color);
-    }
-    50% {
-        color: var(--main-text-color);
-    }
-    100% {
-        color: var(--stress-text-color);
-    }
-}
-
-@keyframes fade-in-out {
-    0% {
-        opacity:1;
-    }
-    50% {
-        opacity:0.5;
-    }
-    100% {
-        opacity:1;
-    }
-}
-
-@keyframes gentle-fade-in-out {
-    0% {
-        opacity:0.6;
-    }
-    50% {
-        opacity:0.4;
-    }
-    100% {
-        opacity:0.6;
-    }
-}
-
-
-@keyframes swing {
-    0% {
-        -webkit-transform: rotate(-20deg);
-        -moz-transform:    rotate(-20deg);
-        -ms-transform:     rotate(-20deg);
-        -o-transform:      rotate(-20deg);
-        transform:         rotate(-20deg);
-    }
-    50% {
-        -webkit-transform: rotate(20deg);
-        -moz-transform:    rotate(20deg);
-        -ms-transform:     rotate(20deg);
-        -o-transform:      rotate(20deg);
-        transform:         rotate(20deg);
-    }
-    100% {
-        -webkit-transform: rotate(-20deg);
-        -moz-transform:    rotate(-20deg);
-        -ms-transform:     rotate(-20deg);
-        -o-transform:      rotate(-20deg);
-        transform:         rotate(-20deg);
-    }
-}
-
-div.slide-heading {
-    height: 15%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    font-size: 140%;
-    font-weight: 700;
-}
-
-div.slide-body {
-    height: 85%;
-}
-
-div.slide-center {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-}
-
-div.content-center {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-}
-
-.img-center {
-    margin-top: 15px;
-    border-radius: 15px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 0 3px 3px var(--alternate-text-color);
-}
-
-div.slide-bullets {
-    display: flex;
-    justify-content: start;
-    flex-direction: column;
-    text-align: left;
-}
-
-.aha {
-    animation-name: color-change;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-duration: 5s;
-}
-
-/* -------------------------------------------------------- */
-/* One for each: story, aha and take-away */
-/* -------------------------------------------------------- */
-
-.story-slide {
-
-}
-
-.story-slide::after {
-    content:"";
-    background-image: url("./pics/storytime.jpg");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;  
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0.5;
-}
-
-.aha-slide::after {
-    content:"";
-    background-image: url("./pics/bricks.jpg");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;  
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0.8;
-}
-
-.aha-slide {
-    font-size: 400%;
-    color: var(--aha-color);
-    text-shadow: 0 0px 15px var(--main-text-color);
-}
-
-.take-away-slide {
-    color: var(--alternate-text-color);
-    text-shadow: var(--alternate-shadow);
-}
-
-.take-away-slide::after {
-    content:"";
-    background-image: url("./pics/board.jpg");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;  
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0.8;
-}
-
-/* -------------------------------------------------------- */
-/* One for each aha */
-/* -------------------------------------------------------- */
-
-
-.common-goal {
-    box-shadow: 0 0 10px 10px var(--common-goal-color);
-}
-
-.delegate {
-    box-shadow: 0 0 10px 10px var(--delegate-color);
-}
-
-.leadership-lonely {
-    box-shadow: 0 0 10px 10px var(--leadership-lonely-color);
-}
-
-.flexible-leader {
-    box-shadow: 0 0 10px 10px var(--flexible-leader-color);
-}
-
-.social-capital {
-    box-shadow: 0 0 10px 10px var(--social-capital-color);
-}
-
-
-/* -------------------------------------------------------- */
-/* Individual slides
-/* -------------------------------------------------------- */
-
-#title-slide::after {
-    content:"";
-    background-image: url("./pics/lightbulb.jpg");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;  
-    position: absolute;
-    animation-name: fade-in-out;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-duration: 5s;
-    z-index: -1;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-#title-slide .main {
-    font-size: 170%;
-    text-align: left;
-    line-height: 75px;
-    height: 70%;
-}
-
-#title-slide .aha-title {
-    color: var(--stress-text-color);
-    display: inline-block;
-    animation-name: swing;
-    animation-iteration-count: infinite;
-    animation-duration: 4s;
-}
-
-#title-slide .author {
-    height: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    position: relative;
-    text-align: left;
-    color: var(--alternate-text-color);
-    text-shadow: var(--alternate-shadow)
-}
-
-#intro {
-    background-image: url("./pics/ba-sunset.jpg");
-}
-
-.intro-pt {
-    margin: 10px;
-    width: 35%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 25px;
-    box-shadow: 0 0 3px 3px var(--alternate-text-color);
-}
