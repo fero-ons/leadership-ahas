@@ -1055,7 +1055,7 @@ div.slide-bullets {
     bottom: 0;
     left: 0;
     right: 0;
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 #recap::after {
@@ -1076,6 +1076,5 @@ div.slide-bullets {
 
 #recap .slide-center {
     font-size: 45px;
-    font-weight: 600;
     line-height: 80px;
 }
