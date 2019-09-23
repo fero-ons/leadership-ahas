@@ -143,7 +143,7 @@ function Main({linear: simpleTransitions=false}) {
         y: -slideStepY,
         z: 0,
         id: 'common-goal',
-        cssClasses: 'aha-slide common-goal',
+        cssClasses: 'aha-slide common-goal common-goal-text',
         content: <>
             <div className="slide-center">
                 <p>The common goal is the most important</p>
@@ -203,7 +203,7 @@ function Main({linear: simpleTransitions=false}) {
         z: 0,
         yRot: 0,
         id: 'delegate',
-        cssClasses: 'aha-slide delegate',
+        cssClasses: 'aha-slide delegate delegate-text',
         content: <>
             <div className="slide-center">
                 <p>"I delegate"<span className="substep rotate-on-show"> (let go)</span></p>
@@ -263,7 +263,7 @@ function Main({linear: simpleTransitions=false}) {
         z: 0,
         yRot: 0,
         id: 'leadership-lonely',
-        cssClasses: 'aha-slide leadership-lonely',
+        cssClasses: 'aha-slide leadership-lonely leadership-lonely-text',
         content: <>
             <div className="slide-center">
                 <p>Leadership is lonely... <span className="substep rotate-on-show"> But...!</span></p>
@@ -325,7 +325,7 @@ function Main({linear: simpleTransitions=false}) {
         z: 0,
         yRot: 0,
         id: 'flexible-leader',
-        cssClasses: 'aha-slide flexible-leader',
+        cssClasses: 'aha-slide flexible-leader flexible-leader-text',
         content: <>
             <div className="slide-center">
                 <p>There's no single right leadership style!</p>
@@ -387,7 +387,7 @@ function Main({linear: simpleTransitions=false}) {
         z: 0,
         yRot: 0,
         id: 'social-capital',
-        cssClasses: 'aha-slide social-capital',
+        cssClasses: 'aha-slide social-capital social-capital-text',
         content: <>
             <div className="slide-center">
                 <p>Build social capital</p>
@@ -502,7 +502,21 @@ function Main({linear: simpleTransitions=false}) {
         </>
     });
 
-    if (!simpleTransitions) {
+    if (simpleTransitions) {
+        addSlide({
+            id: 'recap',
+            content: <>
+                <div className="slide-center">
+                    <p className="common-goal-text">The common goal is the most important</p>
+                    <p className="delegate-text">"I delegate"<span className="rotate-on-show"> (let go)</span></p>
+                    <p className="leadership-lonely-text">Leadership is lonely... <span className="rotate-on-show"> But...!</span></p>
+                    <p className="flexible-leader-text">There's no single right leadership style!</p>
+                    <p className="social-capital-text">Build social capital</p>
+                </div>
+            </>
+        });
+    }
+    else {
         addSlide({
             id: 'overview',
             x: 0,
