@@ -176,7 +176,7 @@ a:focus {
 
     Basically we remove the margin and make inactive steps a little bit transparent.
 */
-.impress-enabled .step {
+/* .impress-enabled .step {
     margin: 0;
     opacity: 0.3;
 
@@ -187,7 +187,7 @@ a:focus {
     transition:         opacity 1s;
 }
 
-.impress-enabled .step.active { opacity: 1 }
+.impress-enabled .step.active { opacity: 1 } */
 
 /*
     These 'slide' step styles were heavily inspired by HTML5 Slides:
@@ -909,7 +909,7 @@ div.slide-bullets {
 /* Individual slides
 /* -------------------------------------------------------- */
 
-#title-slide::after {
+#title-slide.animated-title-slide::after {
     content:"";
     background-image: url("./pics/lightbulb.jpg");
     -webkit-background-size: cover;
@@ -921,6 +921,22 @@ div.slide-bullets {
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
     animation-duration: 5s;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#title-slide.static-title-slide::after {
+    content:"";
+    background-image: url("./pics/lightbulb.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;  
+    position: absolute;
+    opacity: 0.8;
     z-index: -1;
     top: 0;
     bottom: 0;

@@ -5,10 +5,10 @@ var url = window.location.href
 var is3d = url.search('3d=true')
 
 
-function Main({linear=false}) {
+function Main({linear: simpleTransitions=false}) {
     var slides = [];
 
-    var slideStepX = linear ? 2000 : 1200;
+    var slideStepX = simpleTransitions ? 2000 : 1200;
     var slideStepY = 1000;
     var slideStepZ = 1000;
     var lastDataX = 0;
@@ -26,7 +26,7 @@ function Main({linear=false}) {
     }={}) {
         // eval('debugger');
 
-        if (linear) {
+        if (simpleTransitions) {
             x = null;
             y = null;
             z = 0;
@@ -47,9 +47,13 @@ function Main({linear=false}) {
             'data-y': y,
             'data-z': z,
             'data-rotate-y': yRot,
-            'data-transition-duration': linear ? 0 : 800,
+            'data-transition-duration': simpleTransitions ? 0 : 800,
             ...others
         };
+
+        if (simpleTransitions) {
+            mainDivProps['data-perspective'] = 0;
+        }
 
         lastDataX = x;
         lastDataY = y;
@@ -78,6 +82,7 @@ function Main({linear=false}) {
         x: startX,
         y: startY,
         id: 'title-slide',
+        cssClasses: simpleTransitions ? 'static-title-slide' : 'animated-title-slide',
         content: <>
             <div className="slide-center">
                 <div className="main">My leadership <br/> <b className="aha-title">AHA!</b><br/> moments</div>
@@ -86,10 +91,9 @@ function Main({linear=false}) {
                     <div className="affiliation">Office for National Statistics</div>
                 </div>
                 <div className="anim-mode">
-                    <a href={urlLinear}>Linear</a> | <a href={url3d}>3D</a>
+                    <a href={urlLinear}>Simple</a> | <a href={url3d}>3D</a>
                 </div>
             </div>
-
         </>
     });
     
@@ -498,7 +502,7 @@ function Main({linear=false}) {
         </>
     });
 
-    if (!linear) {
+    if (!simpleTransitions) {
         addSlide({
             id: 'overview',
             x: 0,
