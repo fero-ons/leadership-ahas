@@ -507,11 +507,11 @@ function Main({linear: simpleTransitions=false}) {
             id: 'recap',
             content: <>
                 <div className="slide-center">
-                    <p className="common-goal-text">The common goal is the most important</p>
-                    <p className="delegate-text">"I delegate"<span className="rotate-on-show"> (let go)</span></p>
-                    <p className="leadership-lonely-text">Leadership is lonely... <span className="rotate-on-show"> But...!</span></p>
-                    <p className="flexible-leader-text">There's no single right leadership style!</p>
-                    <p className="social-capital-text">Build social capital</p>
+                    <div className="common-goal-text">The common goal is the most important</div>
+                    <div className="delegate-text">"I delegate"<span className="rotate-once"> (let go)</span></div>
+                    <div className="leadership-lonely-text">Leadership is lonely... <span className="rotate-once"> But...!</span></div>
+                    <div className="flexible-leader-text">There's no single right leadership style!</div>
+                    <div className="social-capital-text">Build social capital</div>
                 </div>
             </>
         });
